@@ -7,6 +7,7 @@
 #include "fesvr/option_parser.h"
 #include "riscv/cachesim.h"
 #include "riscv/decode.h"
+#include "riscv/disasm.h"
 
 #include <vector>
 
@@ -154,5 +155,25 @@ std::vector<uint64_t> Hammer::get_vector_reg(uint8_t hart_id, uint8_t vector_reg
   }
 
   return vector_reg_value;
+}
+
+std::string Hammer::get_insn_str(uint8_t hart_id) {
+  processor_t *hart = simulator->get_core(hart_id);
+  mmu_t *mmu = hart->get_mmu();
+  reg_t pc = hart->get_state()->pc;
+  insn_fetch_t fetch = mmu->load_insn(pc);
+  insn_t insn = fetch.insn;
+  const disassembler_t *disasm = hart->get_disassembler();
+  std::string insn_str = disasm->disassemble(insn);
+  return insn_str;
+}
+
+uint64_t Hammer::get_insn_bits(uint8_t hart_id) {
+  processor_t *hart = simulator->get_core(hart_id);
+  mmu_t *mmu = hart->get_mmu();
+  reg_t pc = hart->get_state()->pc;
+  insn_fetch_t fetch = mmu->load_insn(pc);
+  insn_t insn = fetch.insn;
+  return insn.bits();
 }
 

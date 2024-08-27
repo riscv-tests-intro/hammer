@@ -36,6 +36,10 @@ class Hammer {
 
   std::vector<uint64_t> get_vector_reg(uint8_t hart_id, uint8_t vector_reg_id);
 
+  std::string get_insn_str(uint8_t hart_id);
+
+  uint64_t get_insn_bits(uint8_t hart_id);
+
   template <typename T>
   std::optional<std::vector<T>> get_memory_at_VA(uint8_t hart_id, uint64_t virtual_address,
                                                  size_t num_bytes_to_read) {
