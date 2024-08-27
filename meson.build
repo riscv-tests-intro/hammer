@@ -48,7 +48,6 @@ riscv_libdep = cpp.find_library('riscv', dirs: spike_lib_directory, required: tr
 
 spike_incdirs = include_directories([
                                       spike_include_directory + 'softfloat',
-                                      spike_include_directory + 'fesvr',
                                       spike_include_directory,
                                       '.'
                                     ])
